@@ -1,0 +1,3 @@
+rootProject.name = 'SwipeToDismiss'
+
+include ':app'
