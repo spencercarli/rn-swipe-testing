@@ -3,39 +3,69 @@ let {
   StyleSheet,
   View,
   Text,
-  PixelRatio
+  PixelRatio,
+  Animated,
+  PanResponder,
+  TouchableHighlight,
 } = React;
 
 let Row = React.createClass({
   // Configuration
   displayName: 'Row',
 
-  getButtons() {
-    return [
-      {
-        text: 'Dismiss',
-        onPress: () => this.props.dismiss(this.props.data),
-        backgroundColor: 'red'
-      }
-    ];
+  getInitialState() {
+    return {
+      transformAnimation: new Animated.Value(0),
+      opacityAnimation: new Animated.Value(1)
+    }
+  },
+  
+  handleDismiss() {
+    Animated.timing(
+       this.state.opacityAnimation,
+       { toValue: 0 },
+     ).start();
+
+     Animated.timing(
+        this.state.transformAnimation,
+        { toValue: -500 },
+      ).start();
+    //  this.props.dismiss(this.props.data);
   },
 
   // Component Render
   render() {
+    let rowStyles = [styles.row, {
+      transform: [{
+        translateX: this.state.transformAnimation
+      }],
+      opacity: this.state.opacityAnimation
+    }];
+
     return (
-      <View style={styles.row}>
-        <Text style={styles.index}>{this.props.data.index}</Text>
-        <Text style={styles.text}>{this.props.data.text}</Text>
-      </View>
+      <Animated.View
+        style={rowStyles}
+      >
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.index}>{this.props.data.index}</Text>
+          <Text style={styles.text}>{this.props.data.text}</Text>
+        </View>
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() => this.handleDismiss()}
+        >
+          <Text>Dismiss</Text>
+        </TouchableHighlight>
+      </Animated.View>
     );
   }
+
 });
 
 const styles = StyleSheet.create({
   row: {
     borderColor: 'black',
     borderWidth: 1 / PixelRatio.get(),
-    flexDirection: 'row',
     padding: 10,
     marginVertical: 10,
     marginHorizontal: 10,
@@ -50,6 +80,14 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 8
+  },
+  button: {
+    flex: 1,
+    flexDirection: 'column',
+    padding: 10,
+    marginTop: 15,
+    backgroundColor: 'gray',
+    alignItems: 'center'
   }
 });
 
