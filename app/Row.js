@@ -19,18 +19,21 @@ let Row = React.createClass({
       opacityAnimation: new Animated.Value(1)
     }
   },
-  
-  handleDismiss() {
-    Animated.timing(
-       this.state.opacityAnimation,
-       { toValue: 0 },
-     ).start();
 
-     Animated.timing(
+  handleDismiss() {
+    Animated.parallel([
+      Animated.timing(
+        this.state.opacityAnimation,
+        { toValue: 0 },
+      ),
+      Animated.timing(
         this.state.transformAnimation,
         { toValue: -500 },
-      ).start();
-    //  this.props.dismiss(this.props.data);
+      )
+    ]).start(() => {
+      console.log('completed');
+      this.props.dismiss(this.props.data);
+    });
   },
 
   // Component Render
