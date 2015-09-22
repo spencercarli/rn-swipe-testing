@@ -6,6 +6,7 @@ let {
   ListView
 } = React;
 
+let _ = require('underscore');
 let Row = require('./Row');
 
 let Layout = React.createClass({
@@ -13,16 +14,19 @@ let Layout = React.createClass({
   displayName: 'Layout',
 
   getInitialState: function() {
-    let data = [];
-
-    for (i=0; i < 100; i++) {
-      data.push({index: i, text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dolor."});
-    }
-
-    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
+      return r1 !== r2
+    }});
     return {
-      dataSource: ds.cloneWithRows(data),
+      dataSource: ds.cloneWithRows(this.props.data),
+      data: this.props.data
     };
+  },
+
+  handleDismiss(item) {
+    let data = this.state.data;
+    data = _.without(data, item);
+    this.setState({data: data, dataSource: this.state.dataSource.cloneWithRows(data)})
   },
 
   // Component Render
@@ -31,7 +35,7 @@ let Layout = React.createClass({
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Row data={rowData} />}
+          renderRow={(rowData) => <Row data={rowData} dismiss={this.handleDismiss} />}
           initialListSize={20}
           />
       </View>
@@ -42,8 +46,6 @@ let Layout = React.createClass({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center'
   }
 });
 

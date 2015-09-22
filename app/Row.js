@@ -4,50 +4,44 @@ let {
   View,
   Text
 } = React;
+
+let Swipeout = require('react-native-swipeout');
+
+const swipeoutBtns = [
+  {
+    text: 'Dismiss',
+    onPress: () => console.log('dismiss'),
+    backgroundColor: 'red'
+  }
+];
+
 let Row = React.createClass({
   // Configuration
   displayName: 'Row',
-  mixins: [],
-  statics: {},
-  propTypes: {},
 
-  // Initial Value (State and Props)
-  getDefaultProps() {
-    return {};
+  getButtons() {
+    return [
+      {
+        text: 'Dismiss',
+        onPress: () => this.props.dismiss(this.props.data),
+        backgroundColor: 'red'
+      }
+    ];
   },
-  getInitialState() {
-    return {};
-  },
-
-  // Mounting Lifecycle Events
-  componentWillMount() {},
-  componentDidMount() {},
-
-  // Updating Lifecycle Events
-  componentWillReceiveProps(newProps) {},
-  shouldComponentUpdate(newProps, newState) {},
-  componentWillUpdate(newProps, newState) {},
-  componentDidUpdate(oldProps, oldState) {},
-
-  // Unmounting Lifecycle Events
-  componentWillUnmount() {},
-
-  // Data Getters
-  getFullName() {},
-
-  // Click Handlers
-  handleChangeNameClick() {},
-
-  // Sub-render
-  renderFullName() {},
 
   // Component Render
   render() {
     return (
-      <View style={styles.row}>
-        <Text style={styles.index}>{this.props.data.index}</Text>
-        <Text style={styles.text}>{this.props.data.text}</Text>
-      </View>
+      <Swipeout
+        right={this.getButtons()}
+        autoClose={true}
+        backgroundColor="white"
+      >
+        <View style={styles.row}>
+          <Text style={styles.index}>{this.props.data.index}</Text>
+          <Text style={styles.text}>{this.props.data.text}</Text>
+        </View>
+      </Swipeout>
     );
   }
 });
