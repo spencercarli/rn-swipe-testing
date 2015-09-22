@@ -6,16 +6,6 @@ let {
   PixelRatio
 } = React;
 
-let Swipeout = require('react-native-swipeout');
-
-const swipeoutBtns = [
-  {
-    text: 'Dismiss',
-    onPress: () => console.log('dismiss'),
-    backgroundColor: 'red'
-  }
-];
-
 let Row = React.createClass({
   // Configuration
   displayName: 'Row',
@@ -33,16 +23,10 @@ let Row = React.createClass({
   // Component Render
   render() {
     return (
-      <Swipeout
-        right={this.getButtons()}
-        autoClose={true}
-        backgroundColor="transparent"
-      >
-        <View style={styles.row}>
-          <Text style={styles.index}>{this.props.data.index}</Text>
-          <Text style={styles.text}>{this.props.data.text}</Text>
-        </View>
-      </Swipeout>
+      <View style={styles.row}>
+        <Text style={styles.index}>{this.props.data.index}</Text>
+        <Text style={styles.text}>{this.props.data.text}</Text>
+      </View>
     );
   }
 });
