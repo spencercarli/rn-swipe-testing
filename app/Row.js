@@ -2,7 +2,8 @@ let React = require('react-native');
 let {
   StyleSheet,
   View,
-  Text
+  Text,
+  PixelRatio
 } = React;
 
 let Swipeout = require('react-native-swipeout');
@@ -35,7 +36,7 @@ let Row = React.createClass({
       <Swipeout
         right={this.getButtons()}
         autoClose={true}
-        backgroundColor="white"
+        backgroundColor="transparent"
       >
         <View style={styles.row}>
           <Text style={styles.index}>{this.props.data.index}</Text>
@@ -48,11 +49,14 @@ let Row = React.createClass({
 
 const styles = StyleSheet.create({
   row: {
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    borderColor: 'black',
+    borderWidth: 1 / PixelRatio.get(),
     flexDirection: 'row',
-    paddingVertical: 10,
-    paddingHorizontal: 5,
+    padding: 10,
+    marginVertical: 10,
+    marginHorizontal: 10,
+    backgroundColor: 'white',
+    borderRadius: 5
   },
   index: {
     marginRight: 15,
