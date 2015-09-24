@@ -7,6 +7,7 @@ let {
   Animated,
   PanResponder,
   TouchableHighlight,
+  LayoutAnimation,
 } = React;
 
 let Row = React.createClass({
@@ -22,6 +23,7 @@ let Row = React.createClass({
 
   componentDidMount() {
     console.log('mount');
+    // LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
   },
 
   // componentWillUnmount() {
@@ -32,17 +34,41 @@ let Row = React.createClass({
   // },
 
   handleDismiss() {
+    // Animated.parallel([
+    //   // Animated.timing(
+    //   //   this.state.opacityAnimation,
+    //   //   { toValue: 0 },
+    //   // ),
+    //   Animated.timing(
+    //     this.state.transformAnimation,
+    //     { toValue: -500 },
+    //   )
+    // ]).start(() => {
+    //   console.log('completed');
+    //   this.props.dismiss(this.props.data);
+    // });
     Animated.parallel([
-      // Animated.timing(
-      //   this.state.opacityAnimation,
-      //   { toValue: 0 },
-      // ),
+      Animated.timing(
+        this.state.opacityAnimation,
+        { toValue: 0 },
+      ),
       Animated.timing(
         this.state.transformAnimation,
         { toValue: -500 },
       )
     ]).start(() => {
-      console.log('completed');
+      // console.log(LayoutAnimation.create(500, "linear"));
+      LayoutAnimation.configureNext({
+        duration: 200,
+        create: {
+          property: "opacity",
+          type: "linear"
+        },
+        update: {
+          type: "linear"
+        }
+      });
+      // LayoutAnimation.configureNext(LayoutAnimation.create(500, "linear"))
       this.props.dismiss(this.props.data);
     });
   },
