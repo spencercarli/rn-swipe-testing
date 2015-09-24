@@ -35,7 +35,15 @@ let Layout = React.createClass({
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Row data={rowData} dismiss={this.handleDismiss} />}
+          renderRow={(rowData) => {
+            return (
+              <Row
+                key={rowData.index}
+                data={rowData}
+                dismiss={this.handleDismiss}
+              />
+            );
+          }}
           initialListSize={20}
           />
       </View>

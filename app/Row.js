@@ -20,12 +20,23 @@ let Row = React.createClass({
     }
   },
 
+  componentDidMount() {
+    console.log('mount');
+  },
+
+  // componentWillUnmount() {
+  //   Animated.timing(
+  //     this.state.opacityAnimation,
+  //     { toValue: 0 },
+  //   );
+  // },
+
   handleDismiss() {
     Animated.parallel([
-      Animated.timing(
-        this.state.opacityAnimation,
-        { toValue: 0 },
-      ),
+      // Animated.timing(
+      //   this.state.opacityAnimation,
+      //   { toValue: 0 },
+      // ),
       Animated.timing(
         this.state.transformAnimation,
         { toValue: -500 },
@@ -38,12 +49,17 @@ let Row = React.createClass({
 
   // Component Render
   render() {
+    let bgColor = {backgroundColor: '#fff'};
+    if (this.props.data.index % 2 === 0) {
+      bgColor.backgroundColor = '#ccc';
+    }
+
     let rowStyles = [styles.row, {
       transform: [{
         translateX: this.state.transformAnimation
       }],
       opacity: this.state.opacityAnimation
-    }];
+    }, bgColor];
 
     return (
       <Animated.View
